@@ -1,101 +1,76 @@
-# Ex02-OS-Linux-Process API - fork(), wait(), exec()
+# Ex08 Windows-basic-commands-batchscript
+
 # AIM:
-To write C Program that uses Linux Process API - fork(), wait(), exec()
+To execute Windows basic commands and batch scripting
 
 # DESIGN STEPS:
 
 ### Step 1:
 
-Navigate to any Linux environment installed on the system or installed inside a virtual environment like virtual box/vmware or online linux JSLinux (https://bellard.org/jslinux/vm.html?url=alpine-x86.cfg&mem=192) or docker.
+Navigate to any Windows environment installed on the system or installed inside a virtual environment like virtual box/vmware 
 
 ### Step 2:
 
-Write the C Program using Linux Process API - fork(), wait(), exec()
-
+Write the Windows commands / batch file
+Save each script in a file with a .bat extension.
+Ensure you have the necessary permissions to perform the operations.
+Adapt paths as needed based on your system configuration.
 ### Step 3:
 
-Test the C Program for the desired output. 
+Execute the necessary commands/batch file for the desired output. 
 
-# PROGRAM:
-## C Program to print process ID and parent Process ID using Linux API system calls :
-```c
-#include <stdio.h>
-#include <sys/types.h>
-#include <unistd.h>
-int main(void)
-{	//variable to store calling function's process id
-	pid_t process_id;
-	//variable to store parent function's process id
-	pid_t p_process_id;
-	//getpid() - will return process id of calling function
-	process_id = getpid();
-	//getppid() - will return process id of parent function
-	p_process_id = getppid();
-	//printing the process ids
+# WINDOWS COMMANDS:
+## Exercise 1: Basic Directory and File Operations
+Create a directory named "MyLab" on the desktop.
 
-//printing the process ids
-	printf("The process id: %d\n",process_id);
-	printf("The process id of parent function: %d\n",p_process_id);
-	return 0; }
-```
+
+## COMMAND AND OUTPUT:
+
+Change to the "MyLab" directory and create an empty text file named "MyFile.txt" inside it.
+mkdir %userprofile%\Desktop\MyLab
+
+![image](https://github.com/Jeevithaelumalai/Windows-basic-commands-batchscript/assets/118708245/e20f8141-6596-43d5-b989-2d2dab0d0dda)
+
+## COMMAND AND OUTPUT:
+
+List the contents of the "MyLab" directory.
+cd %userprofile%\Desktop\MyLab
+![image](https://github.com/Jeevithaelumalai/Windows-basic-commands-batchscript/assets/118708245/d27849bc-c467-4873-8c79-f7428a160e8c)
+![image](https://github.com/Jeevithaelumalai/Windows-basic-commands-batchscript/assets/118708245/1fa80caf-e9f6-43b8-ae3b-32796202e14c)
+
+
+## COMMAND AND OUTPUT:
+
+Copy "MyFile.txt" to a new folder named "Backup" on the desktop.
+dir %userprofile%\Desktop\MyLab
+![image](https://github.com/Jeevithaelumalai/Windows-basic-commands-batchscript/assets/118708245/40de307a-60ec-44ed-a9d2-94ed73c8d346)
+
+## COMMAND AND OUTPUT:
+
+Move the "MyLab" directory to the "Documents" folder.
+mkdir %userprofile%\Desktop\Backup
+mkdir %userprofile%\Desktop\Backup
+
+![image](https://github.com/Jeevithaelumalai/Windows-basic-commands-batchscript/assets/118708245/47278c6b-2a0d-45f3-bdb9-2f0cc267fbc3)
+![image](https://github.com/Jeevithaelumalai/Windows-basic-commands-batchscript/assets/118708245/364ae2ec-b6ff-4583-b92f-bbc9533b06d0)
+
+
+## COMMAND AND OUTPUT:
+
+mv Myfile.txt %userprofile%\Documents
+![image](https://github.com/Jeevithaelumalai/Windows-basic-commands-batchscript/assets/118708245/99f98df3-adcf-47a5-befb-fdd0122af505)
+
+## Exercise 2: Advanced Batch Scripting:
+Create a batch script named "BackupScript.bat" that creates a backup of files with the ".docx" extension from the "Documents" folder to a new folder named "DocBackup" on the desktop.
+
+@echo off
+mkdir %userprofile%\Desktop\DocBackup
+copy %userprofile%\Documents\*.docx %userprofile%\Desktop\DocBackup
+echo Backup completed successfully!
+
 ## OUTPUT:
-![image](https://github.com/Jovita08/Linux-Process-API-fork-wait-exec/assets/94174503/94ca0c6d-db6e-492b-a613-dd052e27db19)
+![image](https://github.com/Jeevithaelumalai/Windows-basic-commands-batchscript/assets/118708245/c9ec83f6-a056-4184-8124-df0c065cc7e9)
 
+## RESULT:
 
-## C Program to create new process using Linux API system calls fork() and exit():
-```c
-#include <stdlib.h>
-#include <sys/wait.h>
-#include<stdio.h>
-#include<unistd.h>
-#include <sys/types.h>
-int main()
-{ int pid; 
-pid=fork(); 
-if(pid == 0) 
-{ printf("Iam child my pid is %d\n",getpid()); 
-printf("My parent pid is:%d\n",getppid()); 
-exit(0); } 
-else{ 
-printf("I am parent, my pid is %d\n",getpid()); 
-sleep(100); 
-exit(0);} 
-}
-```
-## OUTPUT:
-![image](https://github.com/Jovita08/Linux-Process-API-fork-wait-exec/assets/94174503/8672bb95-05f0-493e-9c7a-d5ef5c88a06a)
-
-
-## C Program to execute Linux system commands using Linux API system calls exec() family:
-```c
-#include <stdlib.h>
-#include <sys/wait.h>
-#include<stdio.h>
-#include<unistd.h>
-#include <sys/types.h>
-int main()
-{       int status;
-        printf("Running ps with execlp\n");
-        execl("ps", "ps", "ax", NULL);
-        wait(&status);
-        if (WIFEXITED(status))
-                printf("child exited with status of %d\n", WEXITSTATUS(status));
-        else
-                puts("child did not exit successfully\n");
-        printf("Done.\n");
-printf("Running ps with execlp. Now with path specified\n");
-        execl("/bin/ps", "ps", "ax", NULL);
-        wait(&status);
-        if (WIFEXITED(status))
-                printf("child exited with status of %d\n", WEXITSTATUS(status));
-        else
-                puts("child did not exit successfully\n");
-        printf("Done.\n");
-        exit(0);}
-```
-## OUTPUT:
-![image](https://github.com/Jovita08/Linux-Process-API-fork-wait-exec/assets/94174503/c6cb29fa-bee5-41af-8a31-dd85fe0e4e12)
-
-
-# RESULT:
-The programs are executed successfully.
+The commands/batch files are executed successfully.
